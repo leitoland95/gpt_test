@@ -86,7 +86,7 @@ HISTORIAL = [{'role': 'system', 'content': 'Eres un asistente útil y conciso.'}
 
 PUBLIC_URL = "https://gpt-test-tz9o.onrender.com"
 
-urls = {"URL_TRABAJO":URL_TRABAJO}
+urls = {"URL_TRABAJO":URL_TRABAJO,"URL_X":"https://ejemplo.com"}
 
 
 xpaths = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
