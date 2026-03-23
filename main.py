@@ -108,7 +108,7 @@ def keep_alive():
 ###.               CLASES 
 
 class SeleniumBot:
-    def __init__(self, driver: Chrome, vars_url: dict, vars_xpaths: dict, REGISTRO: list) -> None:
+    def __init__(self, driver, vars_url: dict, vars_xpaths: dict, REGISTRO: list) -> None:
 	    self.driver = driver
 	    self.vars_url = vars_url
 	    self.vars_xpath = vars_xpath
