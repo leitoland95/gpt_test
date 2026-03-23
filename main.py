@@ -70,10 +70,12 @@ XPATH_DIV_BOX = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
 
 #. OPENAI
 
+API_KEY = os.getenv("GROK_API_KEY")
+
 client_ia = Groq(api_key=API_KEY)
 
 
-API_KEY = os.getenv("GROK_API_KEY")
+
 
 PROMPT_PRINCIPAL = "Antes q nada quiero definir cuál será el formato de tu próxima respuesta, esto es un requisito q no podrás violar al dar tu respuesta, formato: {#tipo de escenario q se corresponde con la imagen q te envío: '# respuesta específica para cada tipo de escenario'}. Ahora te explico cuáles son las respuestas posibles según el escenario identificado. Escenario No.1: 'este es un xcaptcha'. Escenario No.2: en esta caso la respuesta depende de los caracteres q identifiques en el recuadro del captcha, ejemplo 'firq'. Escenario No.3: en este caso es parecido al anterior pero antes de dar tu respuesta debes verificar si alguno de los caracteres deben estar en mayúscula o minúscula en correspondencia con el captcha, ejemplo: 'XJvkq'. Escenario No.4: en este caso debes verificar en la instrucción escrita arriba del captcha cuál es figura geométrica clave, luego de identificada procede a comprobar cuál es la letra q está encima de cada una de esas figuras clave,luego juntas todos los caracteres y esa será tu respuesta, ejemplo: 'TGM'. En caso de q la imagen se corresponda con una foto completamente en blanco será el Escenario No.5, tu respuesta: 'Imagen vacía ', en caso de q la imagen tengo un botón verde en el centro con el texto: 'Start Solve', será el Escenario No. 6, tu respuesta: 'Se terminó el tiempo'. En caso de que la imagen se corresponde con una sugerencia de la plataforma para q revise nuevamente mi respuesta, será el Escenario No. 7, tu respuesta; 'Respuesta incorrecta'. En el caso d q la imagen sea un captcha q no se corresponde con ninguno de los escenarios descritos anteriormente será el escenario No.8 y tu respuesta será: 'Saltar Captcha'. Te muestro ejemplos hipotéticos de tus respuestas en cada caso: {1: 'este es un xcaptcha'}, {2:'firq'}, {3:'XJvkq'}, {4: 'TGM'}, {5:'Imagen vacía'}, {6: 'Se terminó el tiempo'}, {7: 'Respuesta incorrecta'}, {8: 'Saltar Captcha'}"
 
