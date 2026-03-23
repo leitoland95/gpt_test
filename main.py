@@ -47,7 +47,7 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 #.      variables para clase
 
 
-
+MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
 
 
 URL_TRABAJO = "https://2captcha.com/play-and-earn"
