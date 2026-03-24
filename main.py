@@ -147,6 +147,7 @@ class SeleniumBot:
         self.log(f"Error al esperar elemento: {str(e)}")
         return b""  # o raise e si prefieres propagar el error
 
+
      self.log("Tomando captura de pantalla")
      return self.driver.get_screenshot_as_png()
     
@@ -330,6 +331,8 @@ threading.Thread(target=keep_alive, daemon=True).start()
 threading.Thread(target=main_bot, daemon=True).start()
 
 #. PRINCIPAL
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
