@@ -27,7 +27,6 @@ from vars_texto import vars_texto
 app = FastAPI()
 
 
-
 ##. SELENIUM 
 
 #
@@ -139,6 +138,7 @@ class SeleniumBot:
 		
     def take_screenshot(self) -> bytes:
 	    self.log("Tomando captura de pantalla")
+	    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_CANC"])))
 	    return self.driver.get_screenshot_as_png()
 		
     def solve_xcaptcha(self) -> None:
