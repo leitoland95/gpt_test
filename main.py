@@ -139,12 +139,12 @@ class SeleniumBot:
         	
     def nav_trabajo(self) -> None:
 	    self.log("Navegando a trabajo")
-	    self.driver.get(self.vars_url[URL_TRABAJO])
+	    self.driver.get(self.vars_url["URL_TRABAJO"])
 		
 	
     def start_work(self) -> None:
 	    self.log("Clicando enlace de iniciar a trabajar")
-	    elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.xpaths[XPATH_LINK_START])))
+	    elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.xpaths["XPATH_LINK_START"])))
 	    self.driver.execute_script("arguments[0].click();", elem)
 		
     def take_screenshot(self) -> bytes:
@@ -153,25 +153,25 @@ class SeleniumBot:
 		
     def solve_xcaptcha(self) -> None:
         self.log("Resolviendo Xcaptcha")
-        self.driver.switch_to.frame(driver.find_element(By.XPATH, self.xpaths[XPATH_IFRAME]))
-        element = self.driver.find_element(By.XPATH, self.xpaths[XPATH_DIV_BOX])
+        self.driver.switch_to.frame(driver.find_element(By.XPATH, self.xpaths["XPATH_IFRAME"]))
+        element = self.driver.find_element(By.XPATH, self.xpaths["XPATH_DIV_BOX"])
         self.driver.execute_script("arguments[0].click();", element)
         self.driver.switch_to.default_content()
         
     def solve_inputcaptcha(self, texto) -> None:
         self.log("Resolviendo Input Captcha")
-        input_element = self.driver.find_element(By.XPATH,self.xpaths[XPATH_INPUT])
+        input_element = self.driver.find_element(By.XPATH,self.xpaths["XPATH_INPUT"])
         self.driver.execute_script("""
         arguments[0].value = arguments[1];
         arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
         arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
         """, input_element, texto)
-        boton_element = self.driver.find_element(By.XPATH,self.xpaths[XPATH_BTN_SEND])
+        boton_element = self.driver.find_element(By.XPATH,self.xpaths["XPATH_BTN_SEND"])
         boton_element.click()
         
     def return_work(self) -> None:
         self.log("Clicando botón de iniciar a trabajar")
-        elem = driver.find_element(By.XPATH,self.xpaths[XPATH_BTN_START])
+        elem = driver.find_element(By.XPATH,self.xpaths["XPATH_BTN_START"])
         self.driver.execute_script("arguments[0].click();",elem)
         
     def reboot(self) -> None:
@@ -195,15 +195,15 @@ class GroqBot:
         data_url = f"data:image/jpeg;base64,{img_base64}"
  
         consulta = {"role": "user", "content":[{"type":"text", "text": self.vars_texto[PROMPT_PRINCIPAL]},{"type": "image_url", "image_url":{"url": data_url}}]}
-        self.vars_texto[HISTORIAL].append(consulta)
+        self.vars_texto["HISTORIAL"].append(consulta)
     
         response = self.client_ia.chat.completions.create(
-                model=self.vars_texto[MODEL_NAME],
-                messages=self.vars_texto[HISTORIAL]
+                model=self.vars_texto["MODEL_NAME"],
+                messages=self.vars_texto["HISTORIAL"]
             )
             
         reply = response.choices[0].message.content
-        self.vars_texto[HISTORIAL] = self.vars_texto[HISTORIAL][:-1]
+        self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
         return eval(reply)
         self.log("Se consultó correctamente a la IA_GROQ")
         
