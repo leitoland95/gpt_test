@@ -105,9 +105,8 @@ def keep_alive():
     while True:
         try:
             requests.get(url, timeout=10)
-            bot.log(f"Ping a {url} para mantener vivo el servicio")
         except Exception as e:
-            bot.log(f"Error en keep_alive: {e}")
+            pass
         time.sleep(60)
 
 ###.               CLASES 
