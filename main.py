@@ -106,7 +106,7 @@ def keep_alive():
         try:
             requests.get(url, timeout=10)
         except Exception as e:
-            log("Error en Keep_Alive")
+            log(f"Error en Keep_Alive: {str(e)}")
             pass
         time.sleep(60)
 
@@ -190,18 +190,20 @@ class GroqBot:
         self.REGISTRO.append("GROQ_BOT -> "+msg)
         
     def consultar(self,png_image) -> dict:
-    	
+        self.log("Convirtiendo Imagen a cadena de base64")    	
         img_base64 = base64.b64encode(png_image).decode("utf-8")
+        self.log("Convirtiendo base64 a formato de url")
         data_url = f"data:image/jpeg;base64,{img_base64}"
- 
+        self.log("Creando consulta con prompt_predeterminado + imagen servida por bot_selenium")
         consulta = {"role": "user", "content":[{"type":"text", "text": self.vars_texto["PROMPT_PRINCIPAL"]},{"type": "image_url", "image_url":{"url": data_url}}]}
+        self.log("Añadiendo consulta al historial")
         self.vars_texto["HISTORIAL"].append(consulta)
-    
+        self.log("Pasando consulta a la IA_Groq")   
         response = self.client_ia.chat.completions.create(
                 model=self.vars_texto["MODEL_NAME"],
                 messages=self.vars_texto["HISTORIAL"]
             )
-            
+        self.log("Obteniendo Respuesta de la IA_Groq")            
         reply = response.choices[0].message.content
         self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
         return eval(reply)
