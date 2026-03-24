@@ -61,10 +61,10 @@ XPATH_IFRAME = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1
 
 XPATH_DIV_BOX = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
 
-urls = {"URL_TRABAJO":URL_TRABAJO,"URL_X":"https://ejemplo.com"}
+vars_url = {"URL_TRABAJO":URL_TRABAJO,"URL_X":"https://ejemplo.com"}
 
 
-xpaths = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
+vars_xpath = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
  
 
 #.      GROQ
@@ -89,10 +89,15 @@ textos = {"HISTORIAL":HISTORIAL, "PROMPT_PRINCIPAL":PROMPT_PRINCIPAL, "MODEL_NAM
 
 PUBLIC_URL = "https://gpt-test-tz9o.onrender.com"
 
+REGISTRO = list()
+
 
 
 
 ###.               FUNCIONES GENERALES
+
+def log(msg) -> None:
+    self.REGISTRO.append("MAIN_BOT -> "+msg)
 
 def keep_alive():
     url = PUBLIC_URL
@@ -108,7 +113,7 @@ def keep_alive():
 ###.               CLASES 
 
 class SeleniumBot:
-    def __init__(self, driver, vars_url: dict, vars_xpaths: dict, REGISTRO: list) -> None:
+    def __init__(self, driver, vars_url: dict, vars_xpath: dict, REGISTRO: list) -> None:
 	    self.driver = driver
 	    self.vars_url = vars_url
 	    self.vars_xpath = vars_xpath
@@ -202,15 +207,7 @@ class GroqBot:
         return eval(reply)
         self.log("Se consultó correctamente a la IA_GROQ")
         
-        
-bot_selenium = SeleniumBot(driver, vars_url, vars_xpath)
-
-bot_ia = GroqBot(client_ia, vars_texto)
-
-
-def log(msg) -> None:
-    self.REGISTRO.append("MAIN_BOT -> "+msg)
-
+       
                
 def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
     try:
@@ -276,9 +273,6 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
             break
         	
         	
-        
-	
-
 def main_bot():
     while True:
         try:
@@ -286,6 +280,12 @@ def main_bot():
         except Exception as e:
         	pass
         time.sleep(300)
+        
+##### Objetos de Clase
+
+bot_selenium = SeleniumBot(driver, vars_url, vars_xpath)
+
+bot_ia = GroqBot(client_ia, vars_texto)        
         
 ###.               ENDPOINTS
 
@@ -296,7 +296,7 @@ def root():
 	
 @app.get("/logs")
 def devolver_logs():
-    return bot.REGISTRO
+    return REGISTRO
 
     
     
