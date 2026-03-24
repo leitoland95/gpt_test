@@ -203,16 +203,19 @@ class GroqBot:
                 model=self.vars_texto["MODEL_NAME"],
                 messages=self.vars_texto["HISTORIAL"]
             )
-        self.log("Obteniendo Respuesta de la IA_Groq")            
-        reply = response.choices[0].message.content
-        self.log(f"Respuesta de IA_GROQ: {eval(reply)}")
+        self.log("Obteniendo Respuesta de la IA_Groq")
+        try:           
+            reply = response.choices[0].message.content
+            self.log(f"Respuesta de IA_GROQ: {eval(reply)}")
+        except Exception as e:
+            self.log("Error al intentar extraer respuesta: {str(e)}")
+            return
         try:
             self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
         except Exception as e:
         	log("Error al intentar eliminar el último elemento del historial")
-        return eval(reply)
         self.log("Se consultó correctamente a la IA_GROQ")
-        
+        return eval(reply)
        
                
 def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
