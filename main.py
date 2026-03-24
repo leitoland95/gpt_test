@@ -144,7 +144,7 @@ class SeleniumBot:
 	
     def start_work(self) -> None:
 	    self.log("Clicando enlace de iniciar a trabajar")
-	    elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.xpaths["XPATH_LINK_START"])))
+	    elem = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_LINK_START"])))
 	    self.driver.execute_script("arguments[0].click();", elem)
 		
     def take_screenshot(self) -> bytes:
@@ -153,25 +153,25 @@ class SeleniumBot:
 		
     def solve_xcaptcha(self) -> None:
         self.log("Resolviendo Xcaptcha")
-        self.driver.switch_to.frame(driver.find_element(By.XPATH, self.xpaths["XPATH_IFRAME"]))
-        element = self.driver.find_element(By.XPATH, self.xpaths["XPATH_DIV_BOX"])
+        self.driver.switch_to.frame(driver.find_element(By.XPATH, self.vars_xpath["XPATH_IFRAME"]))
+        element = self.driver.find_element(By.XPATH, self.vars_xpath["XPATH_DIV_BOX"])
         self.driver.execute_script("arguments[0].click();", element)
         self.driver.switch_to.default_content()
         
     def solve_inputcaptcha(self, texto) -> None:
         self.log("Resolviendo Input Captcha")
-        input_element = self.driver.find_element(By.XPATH,self.xpaths["XPATH_INPUT"])
+        input_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_INPUT"])
         self.driver.execute_script("""
         arguments[0].value = arguments[1];
         arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
         arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
         """, input_element, texto)
-        boton_element = self.driver.find_element(By.XPATH,self.xpaths["XPATH_BTN_SEND"])
+        boton_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_SEND"])
         boton_element.click()
         
     def return_work(self) -> None:
         self.log("Clicando botón de iniciar a trabajar")
-        elem = driver.find_element(By.XPATH,self.xpaths["XPATH_BTN_START"])
+        elem = driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_START"])
         self.driver.execute_script("arguments[0].click();",elem)
         
     def reboot(self) -> None:
