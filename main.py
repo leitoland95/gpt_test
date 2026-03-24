@@ -97,7 +97,7 @@ REGISTRO = list()
 ###.               FUNCIONES GENERALES
 
 def log(msg) -> None:
-    self.REGISTRO.append("MAIN_BOT -> "+msg)
+    REGISTRO.append("MAIN_BOT -> "+msg)
 
 def keep_alive():
     url = PUBLIC_URL
@@ -106,6 +106,7 @@ def keep_alive():
         try:
             requests.get(url, timeout=10)
         except Exception as e:
+            log("Error en Keep_Alive")
             pass
         time.sleep(60)
 
@@ -275,8 +276,10 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
 def main_bot():
     while True:
         try:
+            log("Intentando Iniciar bot principal")
             captcha_bot(bot_selenium, bot_ia)
         except Exception as e:
+        	log("Error al Intentando Iniciar bot principal")
         	pass
         time.sleep(300)
         
