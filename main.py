@@ -243,7 +243,11 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
     log("Iniciando Bucle While")
     while True:
         log("Tomando Captura de Pantalla")
-        png_image = bot_selenium.take_screenshot()
+        try:
+            png_image = bot_selenium.take_screenshot()
+        except Exception as e:
+            self.log(f"Error al intentar screenshot: {str(e)}")
+            break
         
         log("Consultando al modelo de IA Groq")
         try:
