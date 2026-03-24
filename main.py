@@ -220,18 +220,21 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
 	    bot_selenium.cargar_cookies()
     except Exception as e:
         log("Error al cargar las cookies")
+        return
     
     try:
         log("Intentar Navegar a web Trabajo")
         bot_selenium.nav_trabajo()
     except Exception as e:
         log("Error en la navegación ")
+        return
     
     try:
         log("Intentar iniciar sesión de trabajo")
         bot_selenium.start_work()
     except Exception as e:
         log("Error al iniciar sesión de trabajo")
+        return
     
     log("Iniciando Bucle While")
     while True:
@@ -251,6 +254,7 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
                 bot_selenium.solve_xcaptcha()
             except Exception as e:
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
+                break
             
         elif respuesta.keys()[0] in [2,3,4]:
             try:
@@ -258,6 +262,7 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
                 bot_selenium.solve_inputcaptcha(respuesta[respuesta.keys()[0]])
             except Exception as e:
                 log("Error al Intentar_Resolver_InputCaptcha")
+                break
            
         elif respuesta.keys()[0] in [5,7]:
             try:
@@ -265,12 +270,14 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
                 bot_selenium.reboot()
             except Exception as e:
                 log("Error al Intentar_Reiniciar_Bot")
+                break
         elif respuesta.keys()[0] == 6:
             try:
                 log("Intentar_Reiniciar_Trabajo")
                 bot_selenium.return_work()
             except Exception as e:
                 log("Error al Intentar_Reiniciar_Trabajo")
+                break
             
         elif respuesta.keys()[0] == 8:
             try:
@@ -278,6 +285,7 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
                 bot_selenium.saltar_captcha()
             except Exception as e:
                 log("Error al Intentar_Saltar_Captcha")
+                break
         else:
             break
         	
