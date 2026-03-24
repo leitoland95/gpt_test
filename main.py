@@ -189,12 +189,12 @@ class GroqBot:
     def log(self,msg) -> None:
         self.REGISTRO.append("GROQ_BOT -> "+msg)
         
-    def consultar(self,png_image: bytes) -> dict:
+    def consultar(self,png_image) -> dict:
     	
         img_base64 = base64.b64encode(png_image).decode("utf-8")
         data_url = f"data:image/jpeg;base64,{img_base64}"
  
-        consulta = {"role": "user", "content":[{"type":"text", "text": self.vars_texto[PROMPT_PRINCIPAL]},{"type": "image_url", "image_url":{"url": data_url}}]}
+        consulta = {"role": "user", "content":[{"type":"text", "text": self.vars_texto["PROMPT_PRINCIPAL"]},{"type": "image_url", "image_url":{"url": data_url}}]}
         self.vars_texto["HISTORIAL"].append(consulta)
     
         response = self.client_ia.chat.completions.create(
