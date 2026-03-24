@@ -283,9 +283,9 @@ def main_bot():
         
 ##### Objetos de Clase
 
-bot_selenium = SeleniumBot(driver, vars_url, vars_xpath)
+bot_selenium = SeleniumBot(driver, vars_url, vars_xpath, REGISTRO)
 
-bot_ia = GroqBot(client_ia, vars_texto)        
+bot_ia = GroqBot(client_ia, vars_texto, REGISTRO)        
         
 ###.               ENDPOINTS
 
