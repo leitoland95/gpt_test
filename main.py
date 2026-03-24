@@ -205,7 +205,11 @@ class GroqBot:
             )
         self.log("Obteniendo Respuesta de la IA_Groq")            
         reply = response.choices[0].message.content
-        self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
+        self.log(f"Respuesta de IA_GROQ: {eval(reply)}")
+        try:
+            self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
+        except Exception as e:
+        	log("Error al intentar eliminar el último elemento del historial")
         return eval(reply)
         self.log("Se consultó correctamente a la IA_GROQ")
         
