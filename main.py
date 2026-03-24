@@ -149,7 +149,7 @@ class SeleniumBot:
 		
     def solve_xcaptcha(self) -> None:
         self.log("Resolviendo Xcaptcha")
-        self.driver.switch_to.frame(driver.find_element(By.XPATH, self.vars_xpath["XPATH_IFRAME"]))
+        self.driver.switch_to.frame(self.driver.find_element(By.XPATH, self.vars_xpath["XPATH_IFRAME"]))
         element = self.driver.find_element(By.XPATH, self.vars_xpath["XPATH_DIV_BOX"])
         self.driver.execute_script("arguments[0].click();", element)
         self.driver.switch_to.default_content()
@@ -167,7 +167,7 @@ class SeleniumBot:
         
     def return_work(self) -> None:
         self.log("Clicando botón de iniciar a trabajar")
-        elem = driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_START"])
+        elem = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_START"])
         self.driver.execute_script("arguments[0].click();",elem)
         
     def reboot(self) -> None:
