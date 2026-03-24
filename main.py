@@ -234,7 +234,11 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
         png_image = bot_selenium.take_screenshot()
         
         log("Consultando al modelo de IA Groq")
-        respuesta = bot_ia.consultar(png_image)
+        try:
+            respuesta = bot_ia.consultar(png_image)
+        except Exception as e:
+            log(f"Error al intentar consultar IA: {str(e)}")
+            break
         
         if respuesta.keys()[0] == 1:
             try:
