@@ -94,7 +94,7 @@ def keep_alive():
         
     while True:
         try:
-            requests.get(url, timeout=10)
+            requests.get(url, timeout=30)
         except Exception as e:
             log(f"Error en Keep_Alive: {str(e)}")
             pass
@@ -244,7 +244,7 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
                 log("Intentar Resolver Xcaptcha")
                 bot_selenium.solve_xcaptcha()
             except Exception as e:
-                log("Error al Intentar Resolver Xcaptcha: {str(e)}")
+                log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
             
         elif respuesta.keys()[0] in [2,3,4]:
             try:
@@ -282,7 +282,7 @@ def main_bot():
             log("Intentando Iniciar bot principal")
             captcha_bot(bot_selenium, bot_ia)
         except Exception as e:
-        	log("Error al Intentando Iniciar bot principal")
+        	log("Error al Intentar Iniciar bot principal")
         	pass
         time.sleep(300)
         
