@@ -137,9 +137,14 @@ class SeleniumBot:
 	    self.driver.execute_script("arguments[0].click();", elem)
 		
     def take_screenshot(self) -> bytes:
+	    try:
+	        self.log("Esperando que cargue la pagina")
+	        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_CANC"])))
+	        self.log("Pagina Cargada")
+	    except Exception as e:
+	        self.log(f"Error al intentar screenshot: {str(e)}")
 	    self.log("Tomando captura de pantalla")
-	    WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_CANC"])))
-	    return self.driver.get_screenshot_as_png()
+	    self.driver.get_screenshot_as_png()
 		
     def solve_xcaptcha(self) -> None:
         self.log("Resolviendo Xcaptcha")
