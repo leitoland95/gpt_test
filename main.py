@@ -141,9 +141,7 @@ class SeleniumBot:
     def take_screenshot(self) -> bytes:
      try:
         self.log("Esperando que cargue la pagina")
-        WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_CANC"]))
-        )
+        time.sleep(5)
         self.log("Pagina Cargada")
      except Exception as e:
          self.log("Primer Boton no enontrado")
