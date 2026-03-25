@@ -262,7 +262,7 @@ def captcha_bot() -> "Acciones":
         log("Consultando al modelo de IA Groq")
         try:
             respuesta = bot_ia.consultar(png_image)
-            self.log("Se consultò el modelo correctamente")
+            log("Se consultò el modelo correctamente")
         except Exception as e:
             log(f"Error al intentar consultar IA: {str(e)}")
             break
