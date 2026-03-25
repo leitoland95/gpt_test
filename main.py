@@ -262,11 +262,12 @@ def captcha_bot() -> "Acciones":
         log("Consultando al modelo de IA Groq")
         try:
             respuesta = bot_ia.consultar(png_image)
+            self.log("Se consultò el modelo correctamente")
         except Exception as e:
             log(f"Error al intentar consultar IA: {str(e)}")
             break
         
-        if list(respuesta.keys()[0]) == 1:
+        if list(respuesta.keys())[0] == 1:
             try:
                 log("Intentar Resolver Xcaptcha")
                 bot_selenium.solve_xcaptcha()
@@ -274,7 +275,7 @@ def captcha_bot() -> "Acciones":
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
                 break
             
-        elif list(respuesta.keys()[0]) in [2,3,4]:
+        elif list(respuesta.keys())[0] in [2,3,4]:
             try:
                 log("Intentar_Resolver_InputCaptcha")
                 bot_selenium.solve_inputcaptcha(respuesta[respuesta.keys()[0]])
@@ -282,14 +283,14 @@ def captcha_bot() -> "Acciones":
                 log("Error al Intentar_Resolver_InputCaptcha")
                 break
            
-        elif list(respuesta.keys()[0]) in [5,7]:
+        elif list(respuesta.keys())[0] in [5,7]:
             try:
                 log("Intentar_Reiniciar_Bot")
                 bot_selenium.reboot()
             except Exception as e:
                 log("Error al Intentar_Reiniciar_Bot")
                 break
-        elif list(respuesta.keys()[0]) == 6:
+        elif list(respuesta.keys())[0] == 6:
             try:
                 log("Intentar_Reiniciar_Trabajo")
                 bot_selenium.return_work()
@@ -297,7 +298,7 @@ def captcha_bot() -> "Acciones":
                 log("Error al Intentar_Reiniciar_Trabajo")
                 break
             
-        elif list(respuesta.keys()[0]) == 8:
+        elif list(respuesta.keys())[0] == 8:
             try:
                 log("Intentar_Saltar_Captcha")
                 bot_selenium.saltar_captcha()
