@@ -1,4 +1,4 @@
-captcha_bot ###.               DEPENDENCIAS 
+###.               DEPENDENCIAS 
 
 import os
 import threading
