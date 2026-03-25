@@ -50,7 +50,9 @@ XPATH_INPUT = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]
 
 XPATH_BTN_SEND = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/p[1]/button[2]"
 
-XPATH_BTN_CANC = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/p[1]/button[1]"
+XPATH_BTN_JUMP = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/p[1]/button[1]"
+
+XPATH_BTN_CANC = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/button[1]"
 
 XPATH_BTN_SOLVE = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[1]"
 
@@ -63,7 +65,7 @@ XPATH_DIV_BOX = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
 vars_url = {"URL_TRABAJO":URL_TRABAJO,"URL_X":"https://ejemplo.com"}
 
 
-vars_xpath = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
+vars_xpath = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_JUMP":XPATH_BTN_JUMP,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
  
 
 #.      GROQ
@@ -144,10 +146,15 @@ class SeleniumBot:
         )
         self.log("Pagina Cargada")
      except Exception as e:
-        self.log(f"Error al esperar elemento: {str(e)}")
-        return b""  # o raise e si prefieres propagar el error
-
-
+         try:
+             WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_JUMP"]))
+        )
+             self.log("Pagina Cargada")
+         except Exception as e:
+            self.log(f"Error al esperar elemento: {str(e)}")
+            return b""
+        
      self.log("Tomando captura de pantalla")
      return self.driver.get_screenshot_as_png()
     
@@ -218,7 +225,7 @@ class GroqBot:
         return eval(reply)
        
                
-def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
+def captcha_bot() -> "Acciones":
     try:
 	    log("Intentar Cargar Cookies")
 	    bot_selenium.cargar_cookies()
@@ -246,7 +253,7 @@ def captcha_bot(bot_selenium, bot_ia) -> "Acciones":
         try:
             png_image = bot_selenium.take_screenshot()
         except Exception as e:
-            self.log(f"Error al intentar screenshot: {str(e)}")
+            log(f"Error al intentar screenshot: {str(e)}")
             break
         
         log("Consultando al modelo de IA Groq")
