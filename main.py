@@ -146,6 +146,8 @@ class SeleniumBot:
         )
         self.log("Pagina Cargada")
      except Exception as e:
+         self.log("Primer Boton no enontrado")
+         self.log("Intentar buscar el segundo boton")
          try:
              WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_BTN_JUMP"]))
