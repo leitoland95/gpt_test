@@ -309,7 +309,7 @@ def main_bot():
     while True:
         try:
             log("Intentando Iniciar bot principal")
-            captcha_bot(bot_selenium, bot_ia)
+            captcha_bot()
         except Exception as e:
         	log(f"Error al Intentar Iniciar bot principal: {str(e)}")
         	pass
