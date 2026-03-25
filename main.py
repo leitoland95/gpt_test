@@ -1,4 +1,4 @@
-###.               DEPENDENCIAS 
+ ###.               DEPENDENCIAS 
 
 import os
 import threading
@@ -214,11 +214,14 @@ class GroqBot:
         try:           
             reply = response.choices[0].message.content
             self.log(f"Respuesta de IA_GROQ: {eval(reply)}")
+            
         except Exception as e:
             self.log(f"Error al intentar extraer respuesta: {str(e)}")
             return
         try:
-            self.vars_texto["HISTORIAL"] = self.vars_texto["HISTORIAL"][:-1]
+            lista_historial = list(self.vars_texto["HISTORIAL"])
+            lista_historial.pop()
+            self.vars_texto["HISTORIAL"] = lista_historial
         except Exception as e:
         	log("Error al intentar eliminar el último elemento del historial")
         self.log("Se consultó correctamente a la IA_GROQ")
