@@ -17,6 +17,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from groq import Groq
 from vars_texto import vars_texto
+from fastapi.staticfiles import StaticFiles
 #####.              VARIABLES 
 
 
