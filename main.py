@@ -311,7 +311,7 @@ def main_bot():
             log("Intentando Iniciar bot principal")
             captcha_bot(bot_selenium, bot_ia)
         except Exception as e:
-        	log("Error al Intentar Iniciar bot principal")
+        	log(f"Error al Intentar Iniciar bot principal: {str(e)}")
         	pass
         time.sleep(300)
         
