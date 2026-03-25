@@ -26,6 +26,7 @@ from vars_texto import vars_texto
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 ##. SELENIUM 
 
@@ -157,6 +158,7 @@ class SeleniumBot:
         
      self.log("Tomando captura de pantalla")
      return self.driver.get_screenshot_as_png()
+     self.driver.save_screenshot("/static/screenshots/imagen.png")
     
     def solve_xcaptcha(self) -> None:
         self.log("Resolviendo Xcaptcha")
@@ -275,38 +277,7 @@ def captcha_bot() -> "Acciones":
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
                 break
             
-        elif list(respuesta.keys())[0] in [2,3,4]:
-            try:
-                log("Intentar_Resolver_InputCaptcha")
-                bot_selenium.solve_inputcaptcha(respuesta[respuesta.keys()[0]])
-            except Exception as e:
-                log("Error al Intentar_Resolver_InputCaptcha")
-                break
-           
-        elif list(respuesta.keys())[0] in [5,7]:
-            try:
-                log("Intentar_Reiniciar_Bot")
-                bot_selenium.reboot()
-            except Exception as e:
-                log("Error al Intentar_Reiniciar_Bot")
-                break
-        elif list(respuesta.keys())[0] == 6:
-            try:
-                log("Intentar_Reiniciar_Trabajo")
-                bot_selenium.return_work()
-            except Exception as e:
-                log("Error al Intentar_Reiniciar_Trabajo")
-                break
-            
-        elif list(respuesta.keys())[0] == 8:
-            try:
-                log("Intentar_Saltar_Captcha")
-                bot_selenium.saltar_captcha()
-            except Exception as e:
-                log("Error al Intentar_Saltar_Captcha")
-                break
-        else:
-            break
+        
         	
         	
 def main_bot():
