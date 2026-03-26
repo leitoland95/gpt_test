@@ -1,5 +1,6 @@
 ###.               DEPENDENCIAS 
-
+#...
+#...
 import os
 import threading
 import time
@@ -16,9 +17,8 @@ import uvicorn
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from groq import Groq
-from vars_texto import vars_texto
 from fastapi.staticfiles import StaticFiles
-#####.              VARIABLES 
+#####.           
 
 
 ###.    APLICACIONES
@@ -76,6 +76,13 @@ API_KEY = os.getenv("GROK_API_KEY")
 
 client_ia = Groq(api_key=API_KEY)
 
+MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
+
+PROMPT_PRINCIPAL = "Resuelve este captcha"
+
+HISTORIAL= [{'role': 'system', 'content': 'Eres un asistente útil y conciso.'}, {'role': 'user', 'content': 'Deseo q recuerdes bien la descripcion q te doy a continicion de una categoría de imagen: su estructura de manera general de arriba hacia abajo es : texto descriptivo,recuadro donde se encuentra el captcha el cual contiene un cuadro clicable q debe ser un checkbox, boton azul con texto. Ahora, lo que deseo es lo siguiente, Mi proximo mensaje será: resulve este captcha. lo que deseo es q si despues de analizar la imagen adjunta a ese mensaje determinas q coincide su descripcion con la q te proporciono en este mensaje, devuelvas entonces tu respuesta en este estricto formato: {1:"Captcha tipo 1"}'}, {'role': 'assistant', 'content': 'Entiendo lo que deseas. Quieres que recuerde la descripción de una categoría de imagen que es:\n\n- Texto descriptivo\n- Recuadro con captcha que contiene un cuadro clicable (checkbox)\n- Botón azul con texto\n\nY que cuando me pidas resolver un captcha en tu próximo mensaje, analice la imagen adjunta para ver si coincide con la descripción que me has proporcionado. Si coincide, responderé en el formato:\n\n `{1:"Captcha tipo 1"}`\n\nEstoy listo. Por favor, procede con tu próximo mensaje que incluya la imagen del captcha a resolver.'}]
+
+vars_texto  = {"MODEL_NAME": MODEL_NAME, "HISTORIAL":HISTORIAL,"PROMPT_PRINCIPAL":PROMPT_PRINCIPAL}
 
 ###.    GENERALES 
 
@@ -274,9 +281,14 @@ def captcha_bot() -> "Acciones":
             try:
                 log("Intentar Resolver Xcaptcha")
                 bot_selenium.solve_xcaptcha()
+                self.log("Se resolvió Xcaptcha")
+                break
             except Exception as e:
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
                 break
+        else:
+            log("El modelo no reconoció la imagen como tipo 1")
+            break  
             
         
         	
