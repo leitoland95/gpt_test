@@ -144,7 +144,13 @@ class SeleniumBot:
 	
     def start_work(self) -> None:
 	    self.log("Clicando enlace de iniciar a trabajar")
-	    elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_LINK_START"])))
+	    try:
+	        elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_LINK_START"])))
+	        self.log("Enlace clicado")
+	        return
+	    except Exception as e:
+	        self.log("Error la intentar clicar enlace")
+	        return
 	    self.driver.execute_script("arguments[0].click();", elem)
 		
     def take_screenshot(self) -> bytes:
