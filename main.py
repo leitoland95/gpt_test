@@ -304,7 +304,6 @@ def captcha_bot() -> "Acciones":
                 log("Intentar Resolver Input_captcha")
                 bot_selenium.solve_inputcaptcha(respuesta[2])
                 log("Se resolvió Input_captcha")
-                break
             except Exception as e:
                 log(f"Error al Intentar Resolver Input_captcha: {str(e)}")
                 break
@@ -323,7 +322,7 @@ def main_bot():
             captcha_bot()
         except Exception as e:
         	log(f"Error al Intentar Iniciar bot principal: {str(e)}")
-        	pass
+        	time.sleep(300)
         time.sleep(300)
         
 ##### Objetos de Clase
