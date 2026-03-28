@@ -58,7 +58,7 @@ XPATH_BTN_CANC = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div
 
 XPATH_BTN_SOLVE = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[1]"
 
-XPATH_LINK_START = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/a[1]"
+XPATH_LINK_START = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/div[2]/a[1]"
 
 XPATH_IFRAME = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/iframe[1]"
 
