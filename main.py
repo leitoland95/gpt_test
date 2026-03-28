@@ -46,6 +46,23 @@ chrome_options.add_argument(f"user-agent={user_agent}")
 
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
+link_element = driver.find_element(By.XPATH, "//a[contains(text(),'Start')]")
+
+def get_StartXpath(element):
+    path = []
+    child = element
+    while True:
+        parent = child.find_element(By.XPATH, "..")
+        # Buscar todos los hijos con el mismo tag
+        children = parent.find_elements(By.XPATH, child.tag_name)
+        index = children.index(child) + 1
+        path.insert(0, f"{child.tag_name}[{index}]")
+        if parent.tag_name.lower() == "html":
+            break
+        child = parent
+    return "/" + "/".join(path)
+
+
 URL_TRABAJO = "https://2captcha.com/play-and-earn"
 
 XPATH_INPUT = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/input[1]"
@@ -58,7 +75,7 @@ XPATH_BTN_CANC = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div
 
 XPATH_BTN_SOLVE = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[1]"
 
-XPATH_LINK_START = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/div[2]/a[1]"
+XPATH_LINK_START = get_StartXpath(link_element)
 
 XPATH_IFRAME = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/iframe[1]"
 
@@ -69,6 +86,7 @@ vars_url = {"URL_TRABAJO":URL_TRABAJO,"URL_X":"https://ejemplo.com"}
 
 vars_xpath = {"XPATH_INPUT": XPATH_INPUT,"XPATH_BTN_SEND":XPATH_BTN_SEND,"XPATH_BTN_CANC":XPATH_BTN_CANC,"XPATH_BTN_JUMP":XPATH_BTN_JUMP,"XPATH_BTN_SOLVE":XPATH_BTN_SOLVE,"XPATH_LINK_START":XPATH_LINK_START,"XPATH_IFRAME":XPATH_IFRAME,"XPATH_DIV_BOX":XPATH_DIV_BOX}
  
+
 
 #.      GROQ
 
@@ -95,6 +113,7 @@ REGISTRO = list()
 
 
 ###.               FUNCIONES GENERALES
+
 
 def log(msg) -> None:
     REGISTRO.append("MAIN_BOT -> "+msg)
