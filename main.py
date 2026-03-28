@@ -294,7 +294,6 @@ def captcha_bot() -> "Acciones":
                 log("Intentar Resolver Xcaptcha")
                 bot_selenium.solve_xcaptcha()
                 self.log("Se resolvió Xcaptcha")
-                break
             except Exception as e:
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
                 break
