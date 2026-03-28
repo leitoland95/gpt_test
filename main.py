@@ -80,7 +80,7 @@ MODEL_NAME = "meta-llama/llama-4-scout-17b-16e-instruct"
 
 PROMPT_PRINCIPAL = "Resuelve este captcha"
 
-HISTORIAL = [{'role': 'system', 'content': 'Eres un asistente útil y conciso.'}, {'role': 'user', 'content': 'Deseo q recuerdes bien la descripcion q te doy a continicion de una categoría de imagen: su estructura de manera general de arriba hacia abajo es : texto descriptivo,recuadro donde se encuentra el captcha el cual contiene un cuadro clicable q debe ser un checkbox, boton azul con texto. Ahora, lo que deseo es lo siguiente, Mi proximo mensaje será: resulve este captcha. lo que deseo es q si despues de analizar la imagen adjunta a ese mensaje determinas q coincide su descripcion con la q te proporciono en este mensaje, devuelvas entonces tu respuesta en este estricto formato: {1:"Captcha tipo 1"} o en caso de que no coincida : {2:"#Aqui pondrías una breve descripción de la imagen con un maximo de 20 palabras"}'}, {'role': 'assistant', 'content': 'Entendido. Quieres que recuerde la descripción de una categoría de imagen que tiene la siguiente estructura:\n\n- Texto descriptivo\n- Recuadro con captcha que contiene un cuadro clicable (checkbox)\n- Botón azul con texto\n\nSi en tu próximo mensaje la imagen adjunta coincide con esta descripción, responderé en el formato:\n\n `{1:"Captcha tipo 1"}`\n\nSi no coincide, responderé con una breve descripción de la imagen en un máximo de 20 palabras en el formato:\n\n `{2:"#Breve descripción de la imagen"}`\n\nEstoy listo para analizar la imagen. Por favor, envía el próximo mensaje con la imagen adjunta y la solicitud "Resuelve este captcha".'}]
+HISTORIAL = [{'role': 'system', 'content': 'Eres un asistente útil y conciso.'}, {'role': 'user', 'content': 'Deseo q recuerdes bien las descripciones q te doy a continucion de categorías de imagenes, las descripciones q te doy siempre son de arriba hacia abajo,la primera estructura : 1.texto descriptivo,2.recuadro donde se encuentra el captcha el cual contiene un cuadro clicable q debe ser un checkbox, 3.boton azul con texto; segunda estructura ; 1.texto descriptivo,2.recuadro donde se encuentra el captcha el cual contiene una imagen con caracteres,3. Input para texto donde se introduce la respuesta, 4.boton azul y boton verde. Ahora, lo que deseo es lo siguiente, Mi proximo mensaje será: resuelve este captcha. lo que deseo es q si despues de analizar la imagen adjunta a ese mensaje determinas q coincide su descripcion con alguna de las dedcripciones q te proporciono en este mensaje, devuelvas entonces tu respuesta en este estricto formato json: {1:"Captcha tipo primera estructura"},con este formato si es primera categoria; {2: "#Aqui pondras los caractes identificados en la imagen durante tu analisis"}, con este formato si es segunda categoria; o en caso de que no coincida con ninguna de las anterior: {3:"#Aqui pondrías una breve descripción de la imagen con un maximo de 20 palabras"}'}, {'role': 'assistant', 'content': 'He guardado tus descripciones y la regla de respuesta.  Cuando envíes "resuelve este captcha" con la imagen adjunta, la analizaré y te devolveré exactamente uno de estos JSON según corresponda:  - Primera estructura: {1:"Captcha tipo primera estructura"}  - Segunda estructura: {2:"#Aqui pondras los caractes identificados en la imagen durante tu analisis"}  - Ninguna coincide: {3:"#Aqui pondrías una breve descripción de la imagen con un maximo de 20 palabras"}No haré ninguna otra acción ni pediré aclaraciones; esperaré tu mensaje con la imagen.'}]
 
 vars_texto  = {"MODEL_NAME": MODEL_NAME, "HISTORIAL":HISTORIAL,"PROMPT_PRINCIPAL":PROMPT_PRINCIPAL}
 
@@ -182,15 +182,21 @@ class SeleniumBot:
         self.driver.switch_to.default_content()
         
     def solve_inputcaptcha(self, texto) -> None:
-        self.log("Resolviendo Input Captcha")
-        input_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_INPUT"])
-        self.driver.execute_script("""
+        try:
+            self.log("Resolviendo Input Captcha")
+            input_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_INPUT"])
+            self.driver.execute_script("""
         arguments[0].value = arguments[1];
         arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
         arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
         """, input_element, texto)
-        boton_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_SEND"])
-        boton_element.click()
+            boton_element = self.driver.find_element(By.XPATH,self.vars_xpath["XPATH_BTN_SEND"])
+            boton_element.click()
+            self.log(f"Respuesta enviada")
+            return
+        except Exception as e:
+            self.log(f"Error al resolver input captcha: {str(e)}")
+            return
         
     def return_work(self) -> None:
         self.log("Clicando botón de iniciar a trabajar")
@@ -292,8 +298,19 @@ def captcha_bot() -> "Acciones":
             except Exception as e:
                 log(f"Error al Intentar Resolver Xcaptcha: {str(e)}")
                 break
+                
+        elif list(respuesta.keys())[0] == 2:
+            try:
+                log("Intentar Resolver Input_captcha")
+                bot_selenium.solve_inputcaptcha(respuesta[2])
+                self.log("Se resolvió Input_captcha")
+                break
+            except Exception as e:
+                log(f"Error al Intentar Resolver Input_captcha: {str(e)}")
+                break
         else:
-            log("El modelo no reconoció la imagen como tipo 1")
+            log("El modelo no reconoció la imagen como tipos 1 o 2")
+            bot_selenium.nav_trabajo()
             break  
             
         
