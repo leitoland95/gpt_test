@@ -158,7 +158,7 @@ class SeleniumBot:
     def take_screenshot(self) -> bytes:
      try:
         self.log("Esperando que cargue la pagina")
-        time.sleep(5)
+        time.sleep(4)
         self.log("Pagina Cargada")
      except Exception as e:
          self.log("Primer Boton no enontrado")
@@ -171,7 +171,6 @@ class SeleniumBot:
             return b""
         
      self.log("Tomando captura de pantalla")
-     self.driver.save_screenshot("/static/screenshots/imagen.png")
      return self.driver.get_screenshot_as_png()
           
     
@@ -264,7 +263,7 @@ def captcha_bot() -> "Acciones":
         log("Intentar iniciar sesión de trabajo")
         bot_selenium.start_work()
     except Exception as e:
-        log("Error al iniciar sesión de trabajo")
+        log(f"Error al iniciar sesión de trabajo {str(e)}")
         return
     
     log("Iniciando Bucle While")
