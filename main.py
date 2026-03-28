@@ -58,7 +58,7 @@ XPATH_BTN_CANC = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div
 
 XPATH_BTN_SOLVE = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/button[1]"
 
-XPATH_LINK_START = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/div[2]/a[1]"
+XPATH_LINK_START = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/a[1]"
 
 XPATH_IFRAME = "/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/iframe[1]"
 
@@ -145,12 +145,13 @@ class SeleniumBot:
     def start_work(self) -> None:
 	    self.log("Clicando enlace de iniciar a trabajar")
 	    try:
-	        elem = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, self.vars_xpath["XPATH_LINK_START"])))        
+	        elem = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/section[2]/div[1]/div[2]/a[1]")))
+	        
 	        self.driver.execute_script("arguments[0].click();", elem)            
 	        self.log("Enlace clicado")        
 	        return
 	    except Exception as e:
-	        self.log("Error la intentar clicar enlace")
+	        self.log(f"Error al intentar clicar enlace: {str(e)}")
 	        return
 	    
 		
