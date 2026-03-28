@@ -303,7 +303,7 @@ def captcha_bot() -> "Acciones":
             try:
                 log("Intentar Resolver Input_captcha")
                 bot_selenium.solve_inputcaptcha(respuesta[2])
-                self.log("Se resolvió Input_captcha")
+                log("Se resolvió Input_captcha")
                 break
             except Exception as e:
                 log(f"Error al Intentar Resolver Input_captcha: {str(e)}")
